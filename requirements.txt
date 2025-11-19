@@ -1,12 +1,25 @@
-Django>=5.0
-djangorestframework
-python-decouple      #decouple nos permite que las variables se lean automáticamente desde Render (o el entorno en uso), esto me ahorra subir el .env a Github y da seguridad.
-gunicorn             #para Render
-whitenoise           #para Render
-dj-database-url      #para la base de datos de PostgreSQL
-psycopg2-binary      #para la base de datos de PostgreSQL
-django-allauth==65.13.0
-requests==2.32.5
-PyJWT==2.10.1
+asgiref==3.10.0
+beautifulsoup4==4.14.2
+certifi==2025.11.12
+cffi==2.0.0
+charset-normalizer==3.4.4
 cryptography==46.0.3
-beautifulsoup4
+dj-database-url==3.0.1     #para la base de datos de PostgreSQL
+Django==5.2.8
+django-allauth==65.13.0
+djangorestframework==3.16.1
+idna==3.11
+pillow==12.0.0
+psycopg2-binary==2.9.11    #para la base de datos de PostgreSQL
+pycparser==2.23
+PyJWT==2.10.1
+python-decouple==3.8               #decouple nos permite que las variables se lean automáticamente desde Render (o el entorno en uso), esto me ahorra subir el .env a Github y da seguridad.
+requests==2.32.5
+soupsieve==2.8
+sqlparse==0.5.3
+typing_extensions==4.15.0
+tzdata==2025.2
+urllib3==2.5.0
+whitenoise==6.11.0   #para Render
+python-decouple      
+gunicorn             #para Render
