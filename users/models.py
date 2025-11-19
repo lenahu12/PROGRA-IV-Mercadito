@@ -1,9 +1,17 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class User(models.Model):
-    username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
+class CustomUser(AbstractUser):
+    groups = models.ManyToManyField(
+        "auth.Group",
+        related_name="customuser_set",
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        related_name="customuser_set",
+        blank=True
+    )
 
     def __str__(self):
         return self.username

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Todos los productos{% endblock %}
+
+{% block content %}
+<style>
+  .product-card {
+    transition: transform .15s ease, box-shadow .15s ease;
+    border: 1px solid #eee;
+  }
+
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  }
+
+  .price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  .stock {
+    font-size: .95rem;
+  }
+
+  .card-img-top {
+    object-fit: cover;
+    height: 180px;
+  }
+
+  .category-badge {
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+  }
+</style>
+
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Todos los productos</h2>
+    <form method="get" class="d-flex gap-2">
+      <input type="search" name="q" value="{{ request.GET.q }}" class="form-control" placeholder="Buscar por nombre...">
+      <button class="btn btn-outline-secondary">Buscar</button>
+    </form>
+  </div>
+
+  {% if productos %}
+  <div class="row g-4">
+    {% for producto in productos %}
+      {% include 'product_card.html' %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-5">
+    <h5 class="mb-2">No hay productos publicados aún</h5>
+    <p class="text-muted mb-3">Cuando se publiquen, los vas a ver acá en tarjetas con imagen, precio y categoría.</p>
+    <a href="/api/products/nuevo/" class="btn btn-primary">Crear el primero</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

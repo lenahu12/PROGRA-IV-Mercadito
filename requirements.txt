@@ -1,7 +1,12 @@
 Django>=5.0
 djangorestframework
-psycopg2-binary
-gunicorn
-python-decouple
-whitenoise
-dj-database-url
+python-decouple      #decouple nos permite que las variables se lean automáticamente desde Render (o el entorno en uso), esto me ahorra subir el .env a Github y da seguridad.
+gunicorn             #para Render
+whitenoise           #para Render
+dj-database-url      #para la base de datos de PostgreSQL
+psycopg2-binary      #para la base de datos de PostgreSQL
+django-allauth==65.13.0
+requests==2.32.5
+PyJWT==2.10.1
+cryptography==46.0.3
+beautifulsoup4
