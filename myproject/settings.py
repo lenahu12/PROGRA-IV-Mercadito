@@ -75,7 +75,7 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = "users.CustomUser"
 
 
 # redirecciones de Allauth y otras configuraciones:
@@ -162,7 +162,11 @@ USE_TZ = True
 #-------------------------------- imagenes -----------------------------------------------
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [BASE_DIR / "static"] 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "media",  # agregado temporalmente para servir imágenes
+]
+
 MEDIA_ROOT = BASE_DIR / "media"  #para imagenes dentro del proyecto
 MEDIA_URL = "/media/"      #para imagenes de internet
 #-------------------------------- imagenes -----------------------------------------------
