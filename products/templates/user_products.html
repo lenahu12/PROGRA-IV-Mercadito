@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Mis productos{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-3">Mis productos publicados</h2>
+
+    {% if productos %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for producto in productos %}
+        <div class="col">
+            {% include "user_product_card.html" %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <h5 class="mb-2">Todavía no publicaste productos</h5>
+        <a href="{% url 'crear-producto' %}" class="btn btn-primary">Publicar el primero</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

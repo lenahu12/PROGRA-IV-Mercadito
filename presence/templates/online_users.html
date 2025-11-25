@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4">Usuarios conectados recientemente</h2>
+  <ul class="list-group">
+    {% for ua in active %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ ua.user.username }}
+        <span class="badge bg-success">Activo hace {{ ua.last_seen|timesince }} </span>
+      </li>
+    {% empty %}
+      <li class="list-group-item text-muted">No hay usuarios conectados en los últimos 5 minutos.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

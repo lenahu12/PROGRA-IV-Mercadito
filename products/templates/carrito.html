@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Carrito - Mercadito{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-3">Tu carrito</h2>
+
+    {% if productos %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for producto in productos %}
+        <div class="col">
+            {% include "cart_product_card.html" %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-end mt-4">
+        <button id="btn-realizar-compra" class="btn btn-success btn-lg">
+            🛒 Realizar compra
+        </button>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <h5 class="mb-2">Tu carrito está vacío</h5>
+        <a href="{% url 'product_list' %}" class="btn btn-outline-primary">Explorar productos</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Validación de inputs de cantidad
+    const inputs = document.querySelectorAll('input[name="cantidad"]');
+    inputs.forEach((input) => {
+        const max = parseInt(input.getAttribute("max")) || 1;
+        function normalizar() {
+            let valor = parseInt(input.value);
+            if (isNaN(valor)) {
+                input.value = 1;
+                return;
+            }
+            if (valor < 1) {
+                input.value = 1;
+                return;
+            }
+            if (valor > max) {
+                input.value = max;
+                return;
+            }
+        }
+        input.addEventListener("input", normalizar);
+        input.addEventListener("change", normalizar);
+    });
+
+    // Script del botón de compra
+    const btn = document.getElementById('btn-realizar-compra');
+    const originalText = btn.textContent;
+
+    btn.addEventListener('click', function () {
+        btn.disabled = true;
+        btn.textContent = 'Procesando...';
+
+        fetch('pagar/')
+            .then(res => res.json().then(data => ({ ok: res.ok, data })))
+            .then(({ ok, data }) => {
+                if (!ok) {
+                    alert(data.error || 'No se pudo iniciar el pago.');
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                    return;
+                }
+                window.location.href = data.init_point;
+            })
+            .catch(() => {
+                alert('Hubo un problema al conectar con el servidor.');
+                btn.disabled = false;
+                btn.textContent = originalText;
+            });
+    });
+});
+</script>
+{% endblock %}

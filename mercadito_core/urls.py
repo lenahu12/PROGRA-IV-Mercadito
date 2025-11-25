@@ -5,9 +5,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-
-
-
 urlpatterns = [
     path('', home_view, name='home'),
     path('admin/', admin.site.urls),
@@ -15,7 +12,13 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/products/', include('products.urls')),
     path('api/scraping/', include('scraping.urls')),
+    path("", include("presence.urls")),
+    path("quotes/", include("quotes.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+print("📦 Rutas cargadas en mercadito_core:")
+for url in urlpatterns:
+    print("🔗", url)
 

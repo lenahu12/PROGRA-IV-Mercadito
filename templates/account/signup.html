@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 
 {% block title %}Registrarse{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow">
-        <div class="card-header bg-success text-white text-center">
-          <h4>Crear una cuenta</h4>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Crear una cuenta</h4>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Por favor corregí los errores debajo.
+                    </div>
+                    {% endif %}
+                    <form method="POST" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success w-100">Registrarse</button>
+                    </form>
+                    <hr>
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100 mb-3 d-flex align-items-center justify-content-center">
+                        <i class="fab fa-google me-2"></i> Registrarse con Google
+                    </a>
+                    <p class="text-center">
+                        ¿Ya tenés cuenta? <a href="{% url 'account_login' %}">Iniciá sesión acá</a>
+                    </p>
+                    <div class="text-center mt-3">
+                        <a href="/" class="btn btn-outline-secondary">Volver al inicio</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-          {% if form.errors %}
-          <div class="alert alert-danger">
-            Por favor corregí los errores debajo.
-          </div>
-          {% endif %}
-          <form method="POST" action="{% url 'account_signup' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success w-100">Registrarse</button>
-          </form>
-          <hr>
-          <p class="text-center">
-            ¿Ya tenés cuenta? <a href="{% url 'account_login' %}">Iniciá sesión acá</a>
-          </p>
-          <div class="text-center mt-3">
-            <a href="/" class="btn btn-outline-secondary">Volver al inicio</a>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 {% endblock %}

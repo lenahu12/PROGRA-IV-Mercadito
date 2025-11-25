@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-success">{{ mensaje }}</h2>
+    <p><strong>Estado del pago:</strong> {{ estado }}</p>
+    <p><strong>Comprador:</strong> {{ comprador }}</p>
+    <p><strong>Monto pagado:</strong> ${{ monto }}</p>
+    <hr>
+    <p>Gracias por tu compra. Pronto recibirás tu factura por correo.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Confirmar inicio con Google{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark text-center">
+                    <h4>Confirmar inicio con Google</h4>
+                </div>
+                <div class="card-body text-center">
+                    <p class="mb-4">
+                        Estás por iniciar sesión usando tu cuenta de Google.
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="fab fa-google me-2"></i> Continuar con Google
+                        </button>
+                    </form>
+                    <div class="mt-3">
+                        <a href="/" class="btn btn-outline-secondary">Cancelar y volver al inicio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

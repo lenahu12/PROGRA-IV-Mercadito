@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 text-center">
+  <div class="alert alert-warning shadow-sm">
+    <h4 class="alert-heading">Sesión expirada</h4>
+    <p>Tu sesión fue cerrada automáticamente por inactividad.</p>
+    <hr>
+    <a href="{% url 'account_login' %}" class="btn btn-primary">Iniciar sesión nuevamente</a>
+  </div>
+</div>
+{% endblock %}

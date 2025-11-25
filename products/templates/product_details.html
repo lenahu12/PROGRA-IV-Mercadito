@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-lg">
+    <div class="row g-0">
+      <div class="col-md-5 text-center p-4">
+        {% if product.imagen %}
+        <img src="{{ product.imagen.url }}" alt="{{ product.nombre }}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+        {% else %}
+        <img src="https://via.placeholder.com/600x400?text=Sin+imagen" alt="Sin imagen" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+        {% endif %}
+      </div>
+      <div class="col-md-7">
+        <div class="card-body">
+          <h3 class="card-title">{{ product.nombre }}</h3>
+          <p class="text-muted mb-2">
+            <strong>Publicado por:</strong> {{ product.user.username }} • {{ product.creado_en|date:"d/m/Y" }}
+          </p>
+          <p><strong>Precio:</strong> ${{ product.precio }}</p>
+          <p><strong>Descripción:</strong> {{ product.descripcion|default:"Sin descripción" }}</p>
+          <p><strong>Stock disponible:</strong> {{ product.stock }}</p>
+          <a href="{% url 'home' %}" class="btn btn-outline-secondary mt-3">Volver al inicio</a>
+          {% if user.is_authenticated %}
+            <form method="post" action="{% url 'añadir-al-carrito' product.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success btn-lg mt-3 w-100">🛒 Añadir al carrito</button>
+            </form>
+          {% else %}
+            <a href="{% url 'account_login' %}?next={% url 'product_details' product.pk %}" class="btn btn-outline-secondary btn-lg mt-3 w-100">
+            Iniciá sesión para añadir al carrito
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include "chat.html" %}
+{% endblock %}
+
+
+

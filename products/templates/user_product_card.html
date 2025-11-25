@@ -1,0 +1,48 @@
+<div class="card h-100 shadow-sm position-relative" style="min-height: 250px;">
+    <div class="row g-0 h-100">
+        <div class="col-md-4 position-relative">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
+                     class="img-fluid rounded-start"
+                     style="width: 100%; height: 180px; object-fit: cover;">
+            {% else %}
+                <img src="https://via.placeholder.com/300x180?text=Sin+imagen"
+                     alt="Sin imagen"
+                     class="img-fluid rounded-start"
+                     style="width: 100%; height: 180px; object-fit: cover;">
+            {% endif %}
+
+            {% if producto.categoria %}
+                <span class="badge bg-info text-dark position-absolute bottom-0 start-0 m-2">
+                    {{ producto.categoria }}
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="col-md-8 d-flex flex-column">
+            <div class="card-body flex-grow-1 d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title mb-1">{{ producto.nombre }}</h5>
+
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="badge bg-secondary me-2">Stock: {{ producto.stock }}</span>
+                        <span class="text-muted ms-2">Precio: ${{ producto.precio }}</span>
+                    </div>
+
+                    <div class="card-text mb-2 overflow-auto" style="max-height: 80px;">
+                        {{ producto.descripcion|default:"Sin descripción" }}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="{% url 'product_details' producto.pk %}" class="btn btn-sm btn-outline-primary">Ver detalle</a>
+                    <a href="{% url 'editar-producto' producto.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <form method="post" action="{% url 'eliminar-producto' producto.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger">🗑 Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

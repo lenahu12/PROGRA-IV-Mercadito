@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <h4>Chat del producto</h4>
+    <div id="chat-box" class="border rounded p-3 mb-3" style="max-height: 300px; overflow-y: auto;">
+        {% for mensaje in product.mensajes.all %}
+            <p>
+                <strong>
+                    {{ mensaje.autor.username }}
+                    {% if mensaje.autor == product.user %}
+                        <span class="badge bg-warning text-dark">Vendedor</span>
+                    {% endif %}
+                </strong>: {{ mensaje.contenido }}
+            </p>
+        {% empty %}
+            <p class="text-muted">No hay mensajes aún.</p>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+        <form id="chat-form" class="mt-3">
+            {% csrf_token %}
+            <input type="text" id="mensaje-input" placeholder="Escribí tu mensaje..." class="form-control" required>
+            <button type="submit" class="btn btn-primary mt-2 w-100">Enviar</button>
+        </form>
+    {% else %}
+        <div class="mt-3 text-center">
+            <p class="text-muted">Iniciá sesión para conversar con el vendedor</p>
+            <a href="{% url 'account_login' %}" class="btn btn-outline-primary w-100">Iniciá sesión para conversar</a>
+        </div>
+    {% endif %}
+
+</div>
+
+<script>
+    const productoId = "{{ product.id }}";
+    const chatSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/chat/" + productoId + "/"
+    );
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatBox = document.getElementById("chat-box");
+        const esVendedor = data.autor === "{{ product.user.username }}";
+        const etiqueta = esVendedor ? '<span class="badge bg-warning text-dark">Vendedor</span>' : '';
+        chatBox.innerHTML += `<p><strong>${data.autor} ${etiqueta}</strong>: ${data.mensaje}</p>`;
+    };
+
+    document.getElementById("chat-form").onsubmit = function(e) {
+        e.preventDefault();
+        const input = document.getElementById("mensaje-input");
+        chatSocket.send(JSON.stringify({ "mensaje": input.value }));
+        input.value = "";
+    };
+</script>
