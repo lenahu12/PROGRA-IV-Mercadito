@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import product_list, editar_producto, CrearProductoView, ProductDetailView, CarritoView, AñadirAlCarritoView, EliminarDelCarritoView, AñadirAlCarritoDesdeListaView, MisProductosView, EliminarProductoView, ActualizarCantidadView,CrearPreferenciaCarritoView, PagoExitosoView, PagoFallidoView, PagoPendienteView, NotificacionPagoView
+from .views import product_list, editar_producto, CrearProductoView, ProductDetailView, CarritoView, AñadirAlCarritoView, EliminarDelCarritoView, AñadirAlCarritoDesdeListaView, MisProductosView, EliminarProductoView, ActualizarCantidadView
 
 urlpatterns = [
     path('', product_list, name='product_list'),         # /api/products/
@@ -13,9 +13,5 @@ urlpatterns = [
     path("mis-productos/", MisProductosView.as_view(), name="mis-productos"),
     path("eliminar-producto/<int:pk>/", EliminarProductoView.as_view(), name="eliminar-producto"),
     path("actualizar-cantidad/<int:pk>/", ActualizarCantidadView.as_view(), name="actualizar-cantidad"),
-    path("carrito/pagar/", CrearPreferenciaCarritoView.as_view(), name="crear_preferencia_carrito"),
-    path("pago-exitoso/", PagoExitosoView.as_view(), name="pago-exitoso"),
-    path("pago-fallido/", PagoFallidoView.as_view(), name="pago-fallido"),
-    path("pago-pendiente/", PagoPendienteView.as_view(), name="pago-pendiente"),
-    path("notificacion-pago/", NotificacionPagoView.as_view(), name="notificacion-pago"),
+
 ]

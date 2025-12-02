@@ -2,8 +2,8 @@ from django.db import models
 from products.models import Product
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
-
 User = get_user_model()
+
 class Compra(models.Model):
     comprador = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)

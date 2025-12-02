@@ -1,4 +1,4 @@
-from orders.models import Compra, DetalleCompra
+from .models import Compra, DetalleCompra
 from users.models import CustomUser
 from django.core.mail import EmailMessage
 from django.conf import settings

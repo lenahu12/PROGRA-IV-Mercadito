@@ -1,47 +1,59 @@
 import os
-from decouple import config
 import dj_database_url
 from django.contrib.messages import constants as messages
 from pathlib import Path
-from dotenv import load_dotenv
-import socket
-# Build paths
-BASE_DIR = Path(__file__).resolve().parent.parent
+from decouple import config
 
-# SECURITY WARNING: keep the secret key used in production secret!
+BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY", default="unsafe-secret-key")
 
 #Config para Render y Debug.
 DEBUG = config("DEBUG", default=True, cast=bool)
 RENDER = config("RENDER", default=False, cast=bool)
 
-hostname = socket.gethostname()
 
-if "localhost" in hostname or "127.0.0.1" in hostname:
-    SITE_ID = 1  # local
-else:
-    SITE_ID = 2  # ngrok o producción
+#Site_id, atento cuando cambio de local a producción.
+SITE_ID = config("SITE_ID", default=1, cast=int)
 
 ALLOWED_HOSTS = ["*"]
 #para que permita ngrok
 CSRF_TRUSTED_ORIGINS = [
     "https://brantlee-greasy-rosella.ngrok-free.dev",
 ]
-
 # Aspectos de manejo de sesión:
 SESSION_COOKIE_AGE = 30 * 60  #tiempo de sesion
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 #Configuración de mercado pago:
-load_dotenv()
-MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN_TEST")  # cambiar a PROD en producción
-MP_PUBLIC_KEY = os.getenv("MP_PUBLIC_KEY_TEST")
+MP_ACCESS_TOKEN = config("MP_ACCESS_TOKEN")  # cambiar a PROD en producción
+MP_PUBLIC_KEY = config("MP_PUBLIC_KEY")
 MERCADOPAGO_ACCESS_TOKEN = config("MERCADOPAGO_ACCESS_TOKEN")
 
-
-
-
+# redirecciones de Allauth y otras configuraciones:
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage' # Para poder generar una alerta de logout.
+ACCOUNT_EMAIL_VERIFICATION = "none"
+#ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+SOCIALACCOUNT_QUERY_EMAIL = True
+#------------------------------------- Configuración de mails
+EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
+EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=10, cast=int)
+#------------------------------------ Configuración de google auth
+GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID")
+GOOGLE_SECRET = config("GOOGLE_SECRET")
 # Application definition
 BASICS= [
     'daphne',
@@ -67,8 +79,8 @@ PROPIAS = [
     'scraping',
     'presence',
     'chat',
-    'quotes',
-    'orders',
+    'compra',
+    'mercadoPago',
 ]
 
 INSTALLED_APPS = BASICS + TERCEROS + PROPIAS
@@ -86,7 +98,6 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware', # sin esto allauth no funciona.
 ]
 
-
 #---------- para allauth ------------
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -96,30 +107,8 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
 AUTH_USER_MODEL = "users.CustomUser"
-
-
-# redirecciones de Allauth y otras configuraciones:
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_ON_GET = True
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage' # Para poder generar una alerta de logout.
-ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_EMAIL_REQUIRED = True
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
-SOCIALACCOUNT_QUERY_EMAIL = True
-#------------------------------------- Configuración de mails
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
-
 ROOT_URLCONF = 'mercadito_core.urls'
 
 TEMPLATES = [
@@ -138,12 +127,9 @@ TEMPLATES = [
     },
 ]
 
-#Para el funcionamiento de channels.
+#Configuracion Asgi y Wsgi
 ASGI_APPLICATION = "mercadito_core.asgi.application"
 WSGI_APPLICATION = 'mercadito_core.wsgi.application'
-
-
-
 
 #------------------------ condicional para que funcione tanto en Render como local: base de datos -----------------------
 if RENDER:
@@ -161,7 +147,6 @@ else:
     }
 #--------------------------------------------------------------------------------------------------------------------
 
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -178,16 +163,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 #-------------------------------- imagenes -----------------------------------------------
@@ -217,4 +197,3 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }
-

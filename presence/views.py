@@ -8,7 +8,5 @@ def online_users(request):
     active = UserActivity.objects.filter(last_seen__gte=cutoff).select_related("user")
     return render(request, "online_users.html", {"active": active})
 
-
-
 def session_expired(request):
     return render(request, "session_expired.html")

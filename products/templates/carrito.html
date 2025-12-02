@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.disabled = true;
         btn.textContent = 'Procesando...';
 
-        fetch('pagar/')
+        fetch('/api/pagos/carrito/pagar/')
             .then(res => res.json().then(data => ({ ok: res.ok, data })))
             .then(({ ok, data }) => {
                 if (!ok) {
