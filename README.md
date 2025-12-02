@@ -52,28 +52,28 @@ Para que el proyecto funcione correctamente, es necesario crear un archivo `.env
 SITE_ID=1
 ---
 ### 🔹 Mercado Pago (entorno de prueba)
-MP_PUBLIC_KEY_TEST=
-MP_ACCESS_TOKEN_TEST=
-MP_PUBLIC_KEY_APP=
-MP_ACCESS_TOKEN_APP=
-MERCADOPAGO_ACCESS_TOKEN_APP=
+##### MP_PUBLIC_KEY_TEST=
+##### MP_ACCESS_TOKEN_TEST=
+##### MP_PUBLIC_KEY_APP=
+##### MP_ACCESS_TOKEN_APP=
+##### MERCADOPAGO_ACCESS_TOKEN_APP=
 ### 🔹 Mercado Pago (producción)
-MP_PUBLIC_KEY_PROD=
-MP_ACCESS_TOKEN_PROD=
+##### MP_PUBLIC_KEY_PROD=
+##### MP_ACCESS_TOKEN_PROD=
 ---
 ### 🔹 Gmail (para envío de mails)
-EMAIL_HOST_PASSWORD=
-EMAIL_HOST_USER=
+##### EMAIL_HOST_PASSWORD=
+##### EMAIL_HOST_USER=
 ---
 ### 🔹 Django
-SECRET_KEY=
+##### SECRET_KEY=
 ---
 ### 🔹 Google OAuth (django-allauth)
-GOOGLE_CLIENT_ID=
-GOOGLE_SECRET=
+##### GOOGLE_CLIENT_ID=
+##### GOOGLE_SECRET=
 ---
 ### 🔹 Base de datos MySQL (PythonAnywhere)
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-DB_HOST=
+##### DB_NAME=
+##### DB_USER=
+##### DB_PASSWORD=
+##### DB_HOST=
