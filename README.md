@@ -49,7 +49,7 @@ python manage.py runserver
 Para que el proyecto funcione correctamente, es necesario crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
 ### 🔹 Configuración general
-SITE_ID=1
+##### SITE_ID=1
 ---
 ### 🔹 Mercado Pago (entorno de prueba)
 ##### MP_PUBLIC_KEY_TEST=
