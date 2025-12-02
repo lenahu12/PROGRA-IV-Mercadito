@@ -1,13 +1,6 @@
 
-Esos **tres backticks del final** son lo que te faltaba.
 
 ---
-
-# 🔧 README completamente arreglado (todo funcionando)
-
-Copiá y pegá esto tal cual:
-
-```markdown
 # PROGRA-IV – Mercadito  
 
 Proyecto desarrollado en **Python 3.10** y **Django**, hosteado en **PythonAnywhere**.  
@@ -48,8 +41,8 @@ python manage.py init_socialapps
 python manage.py migrate
 
 # Ejecutar el servidor local
-python manage.py runserver ```bash
-
+python manage.py runserver
+```
 
 ## 🌱 Variables de entorno necesarias (.env)
 
